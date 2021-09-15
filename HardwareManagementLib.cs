@@ -5,16 +5,16 @@ using Encoding = System.Text.Encoding;
 
 namespace HardwareManagementLib {
     public enum DeviceStatus {
-        Unknown,
+        Disabled,
         Enabled,
-        Disabled
+        Unknown
     }
 
     public class Device {
-        public string description;
-        public string friendlyName;
         public string instancePath;
         public string hardwareId;
+        public string friendlyName;
+        public string description;
         public DeviceStatus status {
             get {
                 Native.ReturnCode returnCode;
@@ -74,11 +74,11 @@ namespace HardwareManagementLib {
         }
     }
 
-    public class CfgMgr {
+    public static class ConfigManager {
         // https://github.com/lostindark/DriverStoreExplorer/blob/master/Rapr/Utils/ConfigManager.cs
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/install/porting-from-setupapi-to-cfgmgr32#get-a-list-of-present-devices-and-retrieve-a-property-for-each-device
         public static List<Device> GetAllDevices() {
-            List<Device> devicesList = new List<Device>();
+            List<Device> deviceList = new List<Device>();
             // get device ID list size
             if (Native.CM_Get_Device_ID_List_Size(out uint devicesBufferLength, null) == Native.ReturnCode.CR_SUCCESS) {
                 // create buffer to hold device ID list + null terminator
@@ -88,12 +88,12 @@ namespace HardwareManagementLib {
                     foreach (string instancePath in instancePaths) {
                         Device device = GetDeviceByInstancePath(instancePath);
                         if (device != null) {
-                            devicesList.Add(device);
+                            deviceList.Add(device);
                         }
                     }
                 }
             }
-            return devicesList;
+            return deviceList.Count == 0 ? null : deviceList;
         }
 
         public static Device GetDeviceByInstancePath(string instancePath) {
@@ -114,7 +114,7 @@ namespace HardwareManagementLib {
         }
 
         public static List<Device> GetDevicesByHardwareId(string hardwareId) {
-            return GetAllDevices().FindAll(device => device.hardwareId != null && device.hardwareId.Equals(hardwareId));
+            return GetAllDevices()?.FindAll(device => device.hardwareId != null && device.hardwareId.Equals(hardwareId));
         }
 
         private static string GetDevNodeProperty(uint devInst, Native.DevPropKey property) {

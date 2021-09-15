@@ -1,7 +1,7 @@
 ﻿using Flags = System.FlagsAttribute;
 
 namespace HardwareManagementLib {
-    public partial class Native {
+    public static partial class Native {
         // https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/um/cfgmgr32.h#L4509
         [Flags]
         public enum ReturnCode : uint {

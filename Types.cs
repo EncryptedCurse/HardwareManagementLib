@@ -2,7 +2,7 @@
 using Guid = System.Guid;
 
 namespace HardwareManagementLib {
-    public partial class Native {
+    public static partial class Native {
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/install/DevPropKey
         // https://github.com/lostindark/DriverStoreExplorer/blob/master/Rapr/Utils/DeviceHelper.cs
         [StructLayout(LayoutKind.Sequential)]

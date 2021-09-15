@@ -3,7 +3,7 @@ using IntPtr = System.IntPtr;
 
 namespace HardwareManagementLib {
     // A: ANSI, W: Unicode
-    public partial class Native {
+    public static partial class Native {
         // https://docs.microsoft.com/en-us/windows/win32/api/cfgmgr32/nf-cfgmgr32-cm_get_device_id_list_sizew
         [DllImport("CfgMgr32.dll", SetLastError = true)]
         internal static extern ReturnCode CM_Get_Device_ID_List_Size(
