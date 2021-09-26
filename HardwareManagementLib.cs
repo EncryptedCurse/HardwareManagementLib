@@ -114,7 +114,8 @@ namespace HardwareManagementLib {
         }
 
         public static List<Device> GetDevicesByHardwareId(string hardwareId) {
-            return GetAllDevices()?.FindAll(device => device.hardwareId != null && device.hardwareId.Equals(hardwareId));
+            List<Device> deviceList = GetAllDevices()?.FindAll(device => device.hardwareId != null && device.hardwareId.Equals(hardwareId));
+            return deviceList.Count == 0 ? null : deviceList;
         }
 
         private static string GetDevNodeProperty(uint devInst, Native.DevPropKey property) {
